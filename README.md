@@ -1,12 +1,15 @@
 # Sorbet Error Reproduction
 
-This repository contains the minimal files needed to reproduce the Dependabot Sorbet error when updating GHCR images via docker-compose ecosystem.
+This repository was created to reproduce the Dependabot Sorbet error when updating GHCR images via docker-compose ecosystem.
 
 ## Issue Reference
 https://github.com/dependabot/dependabot-core/issues/13553
 
-## Problem Description
-Dependabot crashes with an internal Sorbet runtime error during the UpdateAllVersions / GroupUpdateAllVersions stage when trying to update the `ghcr.io/goauthentik/server` Docker image.
+## Reproduction Status
+⚠️ **UNABLE TO REPRODUCE** - Dependabot successfully created [PR #1](https://github.com/a-schur/sorbet-error/pull/1) bumping `goauthentik/server` from `2025.10.0` to `2025.10.2` without any Sorbet errors.
+
+## Original Problem Description
+The issue reported that Dependabot crashes with an internal Sorbet runtime error during the UpdateAllVersions / GroupUpdateAllVersions stage when trying to update the `ghcr.io/goauthentik/server` Docker image.
 
 ## Files
 
@@ -36,14 +39,13 @@ All network calls to GHCR succeed (manifest lookups, tags list, token retrieval)
 
 ### Option 2: Locally with dependabot-cli
 1. Clone the [dependabot-cli](https://github.com/dependabot/cli) repository
-2. From the dependabot-cli directory, run:
+2. Set your GitHub token:
+   ```bash
+   export LOCAL_GITHUB_ACCESS_TOKEN=<your-github-token>
+   ```
+3. From the dependabot-cli directory, run:
    ```bash
    script/dependabot update docker a-schur/sorbet-error --debug
-   ```
-   Or use the individual commands:
-   ```bash
-   bin/run fetch_files
-   bin/run update_files
    ```
 
 The error occurs when Dependabot attempts to update the `ghcr.io/goauthentik/server` image from version `2025.10.0`.
